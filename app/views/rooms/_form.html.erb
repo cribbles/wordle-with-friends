@@ -1,0 +1,26 @@
+<%= form_with(
+  url: room_guess_path(room_id: room.id),
+  method: :post,
+  html: { class: 'my-4' }
+) do |f| %>
+<% if guess.errors.any? %>
+<div id="error_explanation">
+  <ul>
+    <% guess.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="form-group">
+  <%= f.text_field(
+    :word,
+    placeholder: 'Enter your guess',
+    class: 'form-control',
+  ) %>
+</div>
+
+<div class="actions">
+  <%= f.submit 'Guess', class: 'btn btn-primary' %>
+</div>
+<% end %>
