@@ -1,13 +1,10 @@
 class Guess < ApplicationRecord
-  after_create_commit { broadcast_prepend_later_to 'guesses' }
+  after_create_commit { broadcast_append_later_to :guesses }
 
-  COLORS = {
-    # right letter, right place
-    green: 'G',
-    # right letter, wrong place
-    yellow: 'Y',
-    # wrong letter
-    gray: 'X'
+  EVALUATION_LETTERS = {
+    correct: 'C',
+    present: 'P',
+    absent: 'A'
   }
 
   belongs_to :player
@@ -20,18 +17,22 @@ class Guess < ApplicationRecord
   end
 
   def correct?
-    self.to_s == COLORS[:green].repeat(5)
+    evaluations.all?(&:correct)
   end
 
   def to_s
+    evaluations.map(&EVALUATION_LETTERS).join
+  end
+
+  def evaluations
     self.word.chars.map.with_index do |char, i|
       if char == room.word[i]
-        COLORS[:green]
+        :correct
       elsif room.word.include?(char)
-        COLORS[:yellow]
+        :present
       else
-        COLORS[:gray]
+        :absent
       end
-    end.join
+    end
   end
 end

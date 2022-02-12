@@ -1,17 +1,8 @@
 <%= turbo_stream_from guess %>
-<div class="card mb-2" id="<%= dom_id(guess) %>">
-  <div class="card-body">
-    <h5 class="card-title text-muted">
-      <small class="float-right">
-        Guessed at <%= guess.created_at %>
-      </small>
-      <p>
-        Player ID: <%= guess.player_id %>
-      </p>
-      <p>
-        Status: <%= guess %>
-      </p>
-    </h5>
-    <div class="card-text lead mb-2"><%= guess.word %></div>
-  </div>
+<div class="row" id="<%= dom_id(guess) %>">
+  <% guess.evaluations.map.with_index do |evaluation, i| %>
+    <div class="tile" data-state="<%= evaluation %>" data-animation="idle">
+      <%= guess.word[i] %>
+    </div>
+  <% end %>
 </div>
