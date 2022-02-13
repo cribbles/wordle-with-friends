@@ -1,9 +1,8 @@
 class Guess < ApplicationRecord
   MAX_GUESSES ||= 6
 
-  after_create_commit do
-    broadcast_append_later_to player, target: player
-  end
+  after_create_commit { broadcast_append_later_to player, target: player }
+  before_create { word.downcase! }
 
   belongs_to :player
   delegate :room, to: :player
