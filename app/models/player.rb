@@ -1,4 +1,6 @@
 class Player < ApplicationRecord
+  extend AlphanumericallyIdentifiable
+
   belongs_to :room
   has_many :guesses, dependent: :destroy
 

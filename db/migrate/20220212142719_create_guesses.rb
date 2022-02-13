@@ -2,9 +2,11 @@ class CreateGuesses < ActiveRecord::Migration[7.0]
   def change
     create_table :guesses do |t|
       t.string :word, null: false, limit: 5
-      t.references :player, null: false, foreign_key: true
+      t.string :player_id, null: false, index: true
 
       t.timestamps
     end
+
+    add_foreign_key :guesses, :players
   end
 end

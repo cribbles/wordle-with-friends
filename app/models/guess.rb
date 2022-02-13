@@ -20,10 +20,6 @@ class Guess < ApplicationRecord
     evaluations.all?(&:correct)
   end
 
-  def to_s
-    evaluations.map(&EVALUATION_LETTERS).join
-  end
-
   def evaluations
     self.word.chars.map.with_index do |char, i|
       if char == room.word[i]

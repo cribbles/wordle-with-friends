@@ -1,9 +1,12 @@
 class CreatePlayers < ActiveRecord::Migration[7.0]
   def change
-    create_table :players do |t|
-      t.references :room, null: false, foreign_key: true
-
+    create_table :players, id: :string do |t|
+      t.string :name
+      t.string :room_id, null: false, index: true
+ 
       t.timestamps
     end
+
+    add_foreign_key :players, :rooms
   end
 end

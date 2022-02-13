@@ -10,36 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_12_143000) do
+ActiveRecord::Schema[7.0].define(version: 2022_02_12_142719) do
   create_table "guesses", force: :cascade do |t|
     t.string "word", limit: 5, null: false
-    t.integer "player_id", null: false
+    t.string "player_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_guesses_on_player_id"
   end
 
-  create_table "players", force: :cascade do |t|
-    t.integer "room_id", null: false
+  create_table "players", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "room_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_players_on_room_id"
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string "username", default: "Blabby"
-    t.text "body"
-    t.integer "likes_count", default: 0
-    t.integer "repost_count", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "rooms", force: :cascade do |t|
-    t.string "name", limit: 6, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "rooms", id: :string, force: :cascade do |t|
     t.string "word", limit: 5, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "guesses", "players"

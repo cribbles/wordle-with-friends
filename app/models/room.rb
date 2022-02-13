@@ -1,18 +1,10 @@
-require 'securerandom'
-
 class Room < ApplicationRecord
-  has_many :players, dependent: :delete_all
+  extend AlphanumericallyIdentifiable
+
+  has_many :players, dependent: :destroy
   has_many :guesses, through: :players
 
   class << self
-    def generate
-      new(generate_attributes)
-    end
-
-    def generate!
-      create(generate_attributes)
-    end
-
     def random_word
       Rails.cache.read(:words).sample
     end
@@ -20,10 +12,7 @@ class Room < ApplicationRecord
     private
 
     def generate_attributes
-      {
-        name: SecureRandom.hex(3),
-        word: random_word
-      }
+      super.merge(word: random_word)
     end
   end
 
