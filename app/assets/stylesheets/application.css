@@ -16,7 +16,7 @@
   font-size: 16px;
   --header-height: 50px;
   --keyboard-height: 200px;
-  --game-max-width: 500px;
+  --game-max-width: 313px;
 }
 
 /* Light theme colors */
@@ -126,12 +126,12 @@ p.banner-text {
   z-index: 4000;
 }
 
-#game {
+.game {
   width: 100%;
   max-width: var(--game-max-width);
   margin: 0 auto;
   height: calc(100% - var(--header-height));
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
 }
 header {
@@ -183,18 +183,17 @@ menu-right {
   }
 }
 
-#board-container {
+.board-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
   overflow: hidden;
 }
-#board {
+.board {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
-  grid-gap: 5px;
-  padding:10px;
+  padding: 10px;
   box-sizing: border-box;
 }
 button.icon {
@@ -209,19 +208,19 @@ button.icon {
   bottom: 0;
 }
 
-#guesses > :host, .guess-row > :host {
+.guess-row > :host {
   display: block;
 }
-#guesses > :host([invalid]), .guess-row > :host([invalid]) {
+.guess-row > :host([invalid]) {
   animation-name: Shake;
   animation-duration: 600ms;
 }
-#guesses > .row, .guess-row > .row {
+.guess-row > .row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 5px;
 }
-#guesses > .win, .guess-row > .win {
+.guess-row > .win {
   animation-name: Bounce;
   animation-duration: 1000ms;
 }

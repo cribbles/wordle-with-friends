@@ -1,0 +1,10 @@
+<div class="game">
+  <div class="board-container">
+    <div class="board" style="width: 303px; height: 360px;">
+      <%= turbo_stream_from player %>
+      <%= turbo_frame_tag dom_id(player) do %>
+        <%= render player.guesses %>
+      <% end %>
+    </div>
+  </div>
+</div>

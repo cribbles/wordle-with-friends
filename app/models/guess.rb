@@ -1,16 +1,18 @@
 class Guess < ApplicationRecord
-  after_create_commit { broadcast_append_later_to :guesses }
+  MAX_GUESSES ||= 6
 
-  EVALUATION_LETTERS = {
-    correct: 'C',
-    present: 'P',
-    absent: 'A'
-  }
+  after_create_commit do
+    broadcast_append_later_to player, target: player
+  end
 
   belongs_to :player
   delegate :room, to: :player
 
-  validates :word, inclusion: { in: Rails.cache.read(:guesses) }
+  validates_associated :player, message: "Too many guesses"
+  validates :word, inclusion: {
+    in: Rails.cache.read(:guesses),
+    message: "Not in word list"
+  }
 
   def ==(word)
     self.word == word

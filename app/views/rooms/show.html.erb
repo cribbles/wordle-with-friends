@@ -6,23 +6,8 @@
     <%= render partial: 'form', locals: { room: @room, guess: @guess } %>
   <% end %>
 
-
-  <div id="game">
-    <div id="board-container">
-      <div id="board" style="width: 303px; height: 360px;">
-        <%= turbo_stream_from :guesses %>
-        <%= turbo_frame_tag :guesses do %>
-          <%= render @guesses %>
-        <% end %>
-        <% unless @guesses.count >= 6 %>
-          <% (6 - @guesses.length).times do %>
-            <%= render partial: 'guesses/empty_row' %>
-          <% end %>
-        <% end %>
-    </div>
-    <game-keyboard></game-keyboard>
-    <game-nav-modal></game-nav-modal>
-    <game-modal></game-modal>
-    <game-page></game-page>
-  </div>
+  <%= turbo_stream_from @room, :players %>
+  <%= turbo_frame_tag :players do %>
+    <%= render partial: 'players/game', collection: @players, as: :player %>
+  <% end %>
 </div>

@@ -1,8 +1,15 @@
 class Player < ApplicationRecord
   extend AlphanumericallyIdentifiable
 
+  MAX_GUESSES ||= 6
+
+  after_create_commit do
+    broadcast_append_later_to room, :players, partial: 'players/game'
+  end
+
   belongs_to :room
   has_many :guesses, dependent: :destroy
+  validate :guesses_cannot_exceed_limit
 
   def guess(word)
     Guess.create!(
@@ -13,5 +20,11 @@ class Player < ApplicationRecord
 
   def won?
     guesses.any?(&:correct?)
+  end
+
+  private
+
+  def guesses_cannot_exceed_limit
+    errors.add("Too many guesses") if guesses.count >= MAX_GUESSES
   end
 end
