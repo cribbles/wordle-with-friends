@@ -1,6 +1,5 @@
 <div class="container">
   <h1>Wordle With Friends</h1>
-  <h4>A Rails / Hotwire demo</h4>
 
   <%= turbo_frame_tag :room_form do %>
     <%= render partial: 'form', locals: { room: @room, guess: @guess } %>
