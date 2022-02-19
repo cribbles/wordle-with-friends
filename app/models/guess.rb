@@ -2,10 +2,10 @@ class Guess < ApplicationRecord
   MAX_GUESSES ||= 6
 
   after_create_commit do
-    broadcast_append_later_to player, :guesses, target: player
+    broadcast_append_later_to player, target: player
   end
   after_destroy_commit do
-    broadcast_remove_to player, :guesses, target: player
+    broadcast_remove_to player, target: player
   end
 
   before_validation { word.downcase! }

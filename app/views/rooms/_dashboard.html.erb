@@ -1,16 +1,20 @@
-<% if room.over? %>
-  <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
-  
-  <p>Word was: <b><%= room.word %></b></p>
-  <%= button_to 'New Word',
-    room_path(room.id),
-    class: 'btn btn-primary',
-    method: :patch %>
-  <hr>
-<% elsif !logged_in? %>
-  <%= button_to 'Join Game',
-    room_players_path(room.id),
-    class: 'btn btn-primary',
-    method: :post %>
-  <hr>
+<%= turbo_frame_tag :room_dashboard do %>
+  <% if room.over? %>
+    <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
+    
+    <p>Word was: <b><%= room.word %></b></p>
+    <%= button_to 'New Word',
+      room_path(room.id),
+      class: 'btn btn-primary',
+      method: :patch %>
+    <hr>
+  <% elsif !logged_in? %>
+    <%= button_to 'Join Game',
+      room_players_path(room.id),
+      class: 'btn btn-primary',
+      method: :post %>
+    <hr>
+  <% end %>
+
+  <h3><%= Random.random_number %></h3>
 <% end %>
