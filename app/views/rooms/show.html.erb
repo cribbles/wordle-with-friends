@@ -1,12 +1,18 @@
 <div class="container">
   <h1>Wordle With Friends</h1>
 
+  <%= turbo_frame_tag :room_dashboard do %>
+    <%= render partial: 'dashboard', locals: { room: @room } %>
+  <% end %>
+
   <%= turbo_frame_tag :room_form do %>
-    <%= render partial: 'form', locals: { room: @room, guess: @guess } %>
+    <% if logged_in? && !@room.won? %>
+      <%= render partial: 'form', locals: { room: @room, guess: @guess } %>
+    <% end %>
   <% end %>
 
   <%= turbo_stream_from @room, :players %>
-  <%= turbo_frame_tag :players do %>
-    <%= render partial: 'players/game', collection: @players, as: :player %>
+  <%= turbo_frame_tag :room_players do %>
+    <%= render partial: :player, collection: @players, as: :player %>
   <% end %>
 </div>

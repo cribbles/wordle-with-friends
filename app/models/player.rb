@@ -4,12 +4,16 @@ class Player < ApplicationRecord
   MAX_GUESSES ||= 6
 
   after_create_commit do
-    broadcast_append_later_to room, :players, partial: 'players/game'
+    broadcast_append_later_to room, :players, target: :room_players
   end
 
   belongs_to :room
   has_many :guesses, dependent: :destroy
   validate :guesses_cannot_exceed_limit
+
+  def can_guess?
+    guesses.count < 6
+  end
 
   def guess(word)
     Guess.create!(
@@ -25,6 +29,7 @@ class Player < ApplicationRecord
   private
 
   def guesses_cannot_exceed_limit
-    errors.add("Too many guesses") if guesses.count >= MAX_GUESSES
+    # TODO:
+    # errors.add("Too many guesses") if guesses.count >= MAX_GUESSES
   end
 end

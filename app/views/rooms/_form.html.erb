@@ -1,6 +1,6 @@
 <%= form_with(
-  id: dom_id(@room),
-  url: guess_path(id: room.id),
+  id: dom_id(room),
+  url: room_guesses_path(room.id),
   method: :post,
   html: { class: 'my-4' }
 ) do |f| %>

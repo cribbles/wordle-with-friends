@@ -1,10 +1,12 @@
 class RoomsController < ApplicationController
+  helper_method :logged_in?
+  
   def show
     @room = Room.find(params[:id])
+    ensure_first_player_exists
     @players = @room.players
     @guesses = @room.guesses
     @guess = Guess.new
-    validate_session
   end
 
   def create
@@ -12,39 +14,21 @@ class RoomsController < ApplicationController
     redirect_to room_path(@room.id)
   end
 
-  def reset
+  def update
     Room.find(params[:id]).reset!
     redirect_to room_path
   end
 
   private
 
-  def validate_session
-    validate_player
-    validate_room
-  end
-
-  def validate_room
-    session[:current_room] = @room.id
-  end
-
-  def validate_player
-    if entering_new_room?
-      forbid_entry if @room.full?
-      join_as_new_player
+  def ensure_first_player_exists
+    if @room.empty?
+      room_id = params[:id]
+      session[room_id] = Player.generate!(room_id: room_id).id
     end
   end
 
-  def join_as_new_player
-    player = Player.generate!(room: @room)
-    session[:current_player] = player.id
-  end
-
-  def forbid_entry
-    render status: :forbidden, text: "Room is full"
-  end
-
-  def entering_new_room?
-    session[:current_room] != @room.id
+  def logged_in?
+    !!session[params[:id]]
   end
 end

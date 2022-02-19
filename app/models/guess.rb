@@ -1,12 +1,19 @@
 class Guess < ApplicationRecord
   MAX_GUESSES ||= 6
 
-  after_create_commit { broadcast_append_later_to player, target: player }
+  after_create_commit do
+    broadcast_append_later_to player, :guesses, target: player
+  end
+  after_destroy_commit do
+    broadcast_remove_to player, :guesses, target: player
+  end
+
   before_validation { word.downcase! }
 
   belongs_to :player
   delegate :room, to: :player
 
+  validate { errors[:base] << "Wordle already solved" if room.won? }
   validates_associated :player, message: "Too many guesses"
   validates :word, inclusion: {
     in: Rails.cache.read(:guesses),
@@ -18,7 +25,7 @@ class Guess < ApplicationRecord
   end
 
   def correct?
-    evaluations.all?(&:correct)
+    evaluations.all?(:correct)
   end
 
   def evaluations

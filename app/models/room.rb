@@ -6,7 +6,8 @@ class Room < ApplicationRecord
 
   class << self
     def random_word
-      Rails.cache.read(:words).sample
+      'chubs'
+      # Rails.cache.read(:words).sample
     end
 
     private
@@ -16,12 +17,24 @@ class Room < ApplicationRecord
     end
   end
 
+  def empty?
+    players.none?
+  end
+
   def full?
     players.many?
   end
 
   def won?
     !!winner
+  end
+
+  def lost?
+    players.none?(&:can_guess?)
+  end
+
+  def over?
+    won? || lost?
   end
 
   def winner

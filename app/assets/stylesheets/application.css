@@ -195,6 +195,9 @@ menu-right {
   grid-template-rows: repeat(6, 1fr);
   padding: 10px;
   box-sizing: border-box;
+  width: 303px;
+  /* TODO: hack */
+  height: 355px;
 }
 button.icon {
   background: none;
@@ -372,14 +375,6 @@ button[data-state='absent'] {
   content: '';
   display: inline-block;
   padding-bottom: 100%;
-}
-
-/* Allow tiles to be smaller on small screens */
-@media (max-height: 600px) {
-  .tile {
-    font-size: 1em;
-    line-height: 1em;
-  }
 }
 
 .tile[data-state='empty'] {
