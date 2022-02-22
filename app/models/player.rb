@@ -1,3 +1,5 @@
+require 'set'
+
 class Player < ApplicationRecord
   extend AlphanumericallyIdentifiable
 
@@ -22,6 +24,16 @@ class Player < ApplicationRecord
       word: word,
       player: self
     )
+  end
+
+  def seen_letters
+    seen = Hash.new { |hash, key| hash[key] = Set.new }
+    guesses.each do |guess|
+      guess.evaluations.each_with_index do |evaluation, i|
+        seen[evaluation] << guess.word[i]
+      end
+    end
+    seen.transform_values { |set| set.to_a.map(&:upcase).sort }
   end
 
   def won?

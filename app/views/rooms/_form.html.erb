@@ -1,6 +1,6 @@
 <%= turbo_stream_from room %>
 <%= turbo_frame_tag :room_form do %>
-  <% if logged_in && !room.won? %>
+  <% if logged_in? && !room.won? %>
     <%= form_with(
       id: dom_id(room),
       url: room_guesses_path(room.id),
@@ -28,5 +28,12 @@
         <%= f.submit 'Guess', class: 'btn btn-primary' %>
       </div>
     <% end %>
+
+    <% # Conceptually this doesn't fit in the form right now, but in a final
+       # implementation it would be part of the keyboard and in the meantime
+       # we want this to rerender on each successful guess submission without
+       # having to stream from a frame. %>
+    <%= render partial: 'players/seen_letters',
+               locals: { player: current_player } %>
   <% end %>
 <% end %>

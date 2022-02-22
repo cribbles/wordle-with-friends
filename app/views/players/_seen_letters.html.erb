@@ -1,0 +1,6 @@
+<% player.seen_letters.each do |type, letters| %>
+  <p>
+    <strong><%= type.to_s.capitalize %>:</strong>
+    <%= letters.join(', ') %>
+  </p>
+<% end %>
