@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
   def update
     room = Room.find(params[:id])
     room.reset!
-    redirect_to room_path
+    redirect_to :back
   end
 
   private

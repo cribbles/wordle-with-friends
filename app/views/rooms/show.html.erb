@@ -4,12 +4,5 @@
   <%= render partial: 'dashboard', locals: { room: @room } %>
   <%= render partial: 'signup', locals: { room: @room } %>
   <%= render partial: 'form', locals: { room: @room, guess: @guess } %>
-
-  <%= turbo_stream_from @room, :players %>
-  <%= turbo_frame_tag :room_players do %>
-    <%= render partial: :player, 
-               collection: @players,
-               as: :player,
-               locals: { room: @room } %>
-  <% end %>
+  <%= render partial: 'boards', locals: { room: @room } %>
 </div>

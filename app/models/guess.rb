@@ -11,9 +11,18 @@ class Guess < ApplicationRecord
                               partial: 'rooms/dashboard',
                               locals: { room: room }
 
-    if correct?
+    if room.over?
       broadcast_remove_to room, target: :room_signup
       broadcast_remove_to room, target: :room_form
+      room.players.each do |player|
+        # TODO: This causes noticable visual delay as each guess is repainted.
+        # Maybe go with a different partial just for "the big reveal"?
+        room.broadcast_replace_later_to room,
+                                        :players,
+                                        target: :room_players,
+                                        partial: 'rooms/boards',
+                                        locals: { room: room }
+      end
     end
   end
 

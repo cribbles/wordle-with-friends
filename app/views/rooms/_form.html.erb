@@ -7,10 +7,10 @@
       method: :post,
       html: { class: 'my-4' }
     ) do |f| %>
-      <% if guess.errors.any? %>
+      <% if guess&.errors.any? %>
         <div id="error_explanation">
           <ul>
-            <% guess.errors.full_messages.each do |msg| %>
+            <% guess&.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
             <% end %>
           </ul>

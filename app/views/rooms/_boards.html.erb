@@ -1,0 +1,4 @@
+  <%= turbo_stream_from room, :players %>
+  <%= turbo_frame_tag :room_players do %>
+    <%= render room.players, room: room %>
+  <% end %>

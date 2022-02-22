@@ -3,7 +3,7 @@ class GuessesController < ApplicationController
     if request.headers["turbo-frame"]
       guess = Guess.find(params[:id])
       render :show, locals: {
-        player_id: current_player_id,
+        is_visible: is_visible?(guess),
         guess: guess
       }
     else
@@ -41,6 +41,10 @@ class GuessesController < ApplicationController
 
   def room_id
     params[:room_id]
+  end
+
+  def is_visible?(guess)
+    current_player_id == guess.player.id || guess.room.over?
   end
 
   def replace_room_dashboard(room)
