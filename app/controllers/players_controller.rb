@@ -1,8 +1,5 @@
 class PlayersController < ApplicationController
-  include Playable
-
   def create
-    room_id = params[:room_id]
     player = Player.generate!(room_id: room_id)
     session[room_id] = player.id
     respond_to do |format|
@@ -11,6 +8,7 @@ class PlayersController < ApplicationController
         room = Room.find(room_id)
         render turbo_stream: [
           replace_room_dashboard(room),
+          destroy_room_signup,
           append_room_form(room)
         ]
       end
@@ -18,6 +16,22 @@ class PlayersController < ApplicationController
   end
 
   private
+
+  def room_id
+    params[:room_id]
+  end
+
+  def replace_room_dashboard(room)
+    turbo_stream.replace(
+      :room_dashboard,
+      partial: 'rooms/dashboard',
+      locals: { room: room }
+    )
+  end
+
+  def destroy_room_signup
+    turbo_stream.remove(:room_signup)
+  end
 
   def append_room_form(room)
     turbo_stream.append(

@@ -1,12 +1,21 @@
 class GuessesController < ApplicationController
-  include Playable
+  def show
+    if request.headers["turbo-frame"]
+      guess = Guess.find(params[:id])
+      render :show, locals: {
+        player_id: current_player_id,
+        guess: guess
+      }
+    else
+      render status: :forbidden
+    end
+  end
 
   def create
-    room_id = params[:room_id]
-    render status: :forbidden unless player_id = session[room_id]
+    render status: :forbidden unless current_player_id
 
     room = Room.find(room_id)
-    guess = Guess.new(player_id: player_id, word: params[:word])
+    guess = Guess.new(player_id: current_player_id, word: params[:word])
 
     respond_to do |format|
       if guess.save
@@ -29,6 +38,18 @@ class GuessesController < ApplicationController
   end
 
   private
+
+  def room_id
+    params[:room_id]
+  end
+
+  def replace_room_dashboard(room)
+    turbo_stream.replace(
+      :room_dashboard,
+      partial: 'rooms/dashboard',
+      locals: { room: room }
+    )
+  end
 
   def replace_room_form(room, guess)
     turbo_stream.replace(

@@ -1,0 +1,11 @@
+<%= turbo_frame_tag dom_id(guess) do %>
+  <div class="guess-row">
+    <div class="row">
+      <% guess.evaluations.map.with_index do |evaluation, i| %>
+        <div class="tile" data-state="<%= evaluation %>" data-animation="idle">
+          <%= player_id == guess.player.id ? guess.word[i] : '' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

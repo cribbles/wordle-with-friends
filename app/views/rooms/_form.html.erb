@@ -1,5 +1,6 @@
+<%= turbo_stream_from room %>
 <%= turbo_frame_tag :room_form do %>
-  <% if logged_in? && !room.won? %>
+  <% if logged_in && !room.won? %>
     <%= form_with(
       id: dom_id(room),
       url: room_guesses_path(room.id),

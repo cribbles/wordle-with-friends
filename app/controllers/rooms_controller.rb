@@ -1,8 +1,6 @@
 class RoomsController < ApplicationController
-  helper_method :logged_in?
-  
   def show
-    @room = Room.find(params[:id])
+    @room = Room.find(room_id)
     ensure_first_player_exists
     @players = @room.players
     @guesses = @room.guesses
@@ -15,7 +13,8 @@ class RoomsController < ApplicationController
   end
 
   def update
-    Room.find(params[:id]).reset!
+    room = Room.find(params[:id])
+    room.reset!
     redirect_to room_path
   end
 
@@ -28,7 +27,7 @@ class RoomsController < ApplicationController
     end
   end
 
-  def logged_in?
-    !!session[params[:id]]
+  def room_id
+    params[:id]
   end
 end

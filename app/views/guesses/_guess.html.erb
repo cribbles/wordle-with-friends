@@ -1,11 +1,3 @@
-<%= turbo_frame_tag dom_id(guess) do %>
-  <div class="guess-row">
-    <div class="row">
-      <% guess.evaluations.map.with_index do |evaluation, i| %>
-        <div class="tile" data-state="<%= evaluation %>" data-animation="idle">
-          <%= guess.word[i] %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+<% # https://www.colby.so/posts/conditional-rendering-with-turbo-stream-broadcasts %>
+<%= turbo_frame_tag dom_id(guess),
+                    src: room_guess_path(room, guess, frame: true) %>
