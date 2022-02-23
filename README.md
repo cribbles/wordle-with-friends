@@ -1,24 +1,13 @@
-# README
+# Wordle With Friends
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a multiplayer Wordle clone written in [Rails 7](https://rubyonrails.org/), using [Hotwire](https://hotwired.dev/) for interactivity and live updates.
 
-Things you may want to cover:
+**Pardon my dust:** This is a demo project under active development as of writing. Expect breaking changes, missing documentation, etc.
 
-* Ruby version
+## Live
 
-* System dependencies
+https://wordle-friends.herokuapp.com/
 
-* Configuration
+## License
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+MIT
