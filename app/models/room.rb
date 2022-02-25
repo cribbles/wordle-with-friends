@@ -25,7 +25,10 @@ class Room < ApplicationRecord
   end
 
   def won?
-    !!winner
+    Guess.where(
+      player: players.map(&:id),
+      word: word
+    ).any?
   end
 
   def lost?
@@ -43,6 +46,17 @@ class Room < ApplicationRecord
   def reset!
     clear_guesses
     reset_word
+    stream_latest_state
+  end
+
+  def stream_latest_state
+    ['dashboard', 'form', 'signup'].each do |partial|
+      broadcast_replace_later_to self,
+                                 target: "room_#{partial}",
+                                 partial: "rooms/#{partial}",
+                                 locals: { room: self }
+    end
+    guesses.each(&:stream_latest_state)
   end
 
   private

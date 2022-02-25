@@ -15,6 +15,15 @@ class PlayersController < ApplicationController
     end
   end
 
+  def new
+    if request.headers["turbo-frame"]
+      room = Room.find(room_id)
+      render :new, locals: { room: room }
+    else
+      render status: :forbidden
+    end
+  end
+
   private
 
   def room_id

@@ -11,6 +11,17 @@ class GuessesController < ApplicationController
     end
   end
 
+  def new
+    if request.headers["turbo-frame"]
+      render :new, locals: {
+        room: Room.find(room_id),
+        guess: nil
+      }
+    else
+      render status: :forbidden
+    end
+  end
+
   def create
     render status: :forbidden unless current_player_id
 
@@ -23,14 +34,14 @@ class GuessesController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             replace_room_dashboard(room),
-            replace_room_form(room, Guess.new)
+            replace_guess_form(room, Guess.new)
           ]
         end
       else
         format.turbo_stream do
           render turbo_stream: [
             replace_room_dashboard(room),
-            replace_room_form(room, guess)
+            replace_guess_form(room, guess)
           ]
         end
       end
@@ -55,10 +66,10 @@ class GuessesController < ApplicationController
     )
   end
 
-  def replace_room_form(room, guess)
+  def replace_guess_form(room, guess)
     turbo_stream.replace(
       :room_form,
-      partial: 'rooms/form',
+      template: 'guesses/new',
       locals: {
         room: room,
         guess: guess

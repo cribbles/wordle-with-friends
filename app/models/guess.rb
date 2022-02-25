@@ -1,41 +1,27 @@
 class Guess < ApplicationRecord
   MAX_GUESSES ||= 6
 
+  belongs_to :player
+  delegate :room, to: :player
+
   after_create_commit do
     broadcast_append_later_to player,
-                              :guesses,
                               target: player,
                               locals: { room: room }
     broadcast_update_later_to room,
                               target: :room_dashboard,
                               partial: 'rooms/dashboard',
                               locals: { room: room }
-
     if room.over?
-      broadcast_remove_to room, target: :room_signup
-      broadcast_remove_to room, target: :room_form
-      room.players.each do |player|
-        # TODO: This causes noticable visual delay as each guess is repainted.
-        # Maybe go with a different partial just for "the big reveal"?
-        room.broadcast_replace_later_to room,
-                                        :players,
-                                        target: :room_players,
-                                        partial: 'rooms/boards',
-                                        locals: { room: room }
-      end
+      room.stream_latest_state
     end
   end
 
   after_destroy_commit do
-    broadcast_remove_to player,
-                        :guesses,
-                        target: player
+    broadcast_remove_to player, target: self
   end
 
   before_validation { word.downcase! }
-
-  belongs_to :player
-  delegate :room, to: :player
 
   validate { errors[:base] << "Wordle already solved" if room.won? }
   validates_associated :player, message: "Too many guesses"
@@ -62,5 +48,11 @@ class Guess < ApplicationRecord
         :absent
       end
     end
+  end
+
+  def stream_latest_state
+    broadcast_replace_later_to player,
+                               target: self,
+                               locals: { room: room, guess: self }
   end
 end

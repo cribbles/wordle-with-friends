@@ -6,9 +6,7 @@ class Player < ApplicationRecord
   MAX_GUESSES ||= 6
 
   after_create_commit do
-    broadcast_append_later_to room,
-                              :players,
-                              target: :room_players
+    broadcast_append_later_to room, :boards, target: :room_boards
   end
 
   belongs_to :room

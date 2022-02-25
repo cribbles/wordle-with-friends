@@ -1,10 +1,2 @@
-<%= turbo_stream_from room %>
-<%= turbo_frame_tag :room_signup do %>
-  <% if !room.over? && !session[room.id] %>
-    <%= button_to 'Join Game',
-      room_players_path(room.id),
-      class: 'btn btn-primary',
-      method: :post %>
-    <hr>
-  <% end %>
-<% end %>
+<%= turbo_frame_tag :room_signup,
+                    src: new_room_player_path(room, frame: true) %>
