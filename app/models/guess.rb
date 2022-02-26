@@ -4,10 +4,10 @@ class Guess < ApplicationRecord
   belongs_to :player
   delegate :room, to: :player
 
+  broadcasts_to ->(guess) { [guess.player, :guesses] },
+    target: ->(guess) { guess.player }
+
   after_create_commit do
-    broadcast_append_later_to player,
-                              target: player,
-                              locals: { room: room }
     broadcast_update_later_to room,
                               target: :room_dashboard,
                               partial: 'rooms/dashboard',
@@ -15,10 +15,6 @@ class Guess < ApplicationRecord
     if room.over?
       room.stream_latest_state
     end
-  end
-
-  after_destroy_commit do
-    broadcast_remove_to player, target: self
   end
 
   before_validation { word.downcase! }
@@ -52,6 +48,7 @@ class Guess < ApplicationRecord
 
   def stream_latest_state
     broadcast_replace_later_to player,
+                               :guesses,
                                target: self,
                                locals: { room: room, guess: self }
   end

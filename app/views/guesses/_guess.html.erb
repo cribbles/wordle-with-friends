@@ -1,3 +1,2 @@
-<% # https://www.colby.so/posts/conditional-rendering-with-turbo-stream-broadcasts %>
 <%= turbo_frame_tag dom_id(guess),
-                    src: room_guess_path(room, guess, frame: true) %>
+                    src: room_guess_path(guess.room, guess, frame: true) %>
