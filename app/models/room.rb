@@ -46,10 +46,10 @@ class Room < ApplicationRecord
   def reset!
     clear_guesses
     reset_word
-    stream_latest_state
+    broadcast_latest_state
   end
 
-  def stream_latest_state
+  def broadcast_latest_state
     ['dashboard', 'form', 'signup'].each do |partial|
       broadcast_replace_later_to self,
                                  target: "room_#{partial}",

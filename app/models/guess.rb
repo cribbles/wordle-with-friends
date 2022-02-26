@@ -7,7 +7,7 @@ class Guess < ApplicationRecord
   broadcasts_to ->(guess) { [guess.player, :guesses] },
     target: ->(guess) { guess.player }
 
-  after_create_commit { room.stream_latest_state if room.over? }
+  after_create_commit { room.broadcast_latest_state if room.over? }
 
   before_validation { word.downcase! }
 
