@@ -37,11 +37,4 @@ class Guess < ApplicationRecord
       end
     end
   end
-
-  def stream_latest_state
-    broadcast_replace_later_to player,
-                               :guesses,
-                               target: self,
-                               locals: { room: room, guess: self }
-  end
 end

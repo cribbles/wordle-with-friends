@@ -56,7 +56,12 @@ class Room < ApplicationRecord
                                  partial: "rooms/#{partial}",
                                  locals: { room: self }
     end
-    guesses.each(&:stream_latest_state)
+
+    # TODO: This requires us to go through each guess frame, which is
+    # very inefficient and causes a noticably slow repaint.
+    # We should instead refresh the boards partial with a Guess#index
+    # frame tailored to each player.
+    guesses.each { |guess| guess.broadcast_replace_later_to player, :guesses }
   end
 
   private
