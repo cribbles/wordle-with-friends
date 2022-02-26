@@ -5,12 +5,13 @@ class Player < ApplicationRecord
 
   MAX_GUESSES ||= 6
 
+  belongs_to :room
+  has_many :guesses, dependent: :destroy
+
   after_create_commit do
     broadcast_append_later_to room, :boards, target: :room_boards
   end
 
-  belongs_to :room
-  has_many :guesses, dependent: :destroy
   validate :guesses_cannot_exceed_limit
 
   def can_guess?
