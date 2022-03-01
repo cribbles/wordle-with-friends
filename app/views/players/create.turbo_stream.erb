@@ -1,0 +1,4 @@
+<%= turbo_stream.remove :room_signup %>
+<%= turbo_stream.append :room_form do %>
+  <%= render partial: 'rooms/form', locals: { room: @room } %>
+<% end %>

@@ -9,7 +9,10 @@ class Player < ApplicationRecord
   has_many :guesses, dependent: :destroy
 
   after_create_commit do
-    broadcast_append_later_to room, :boards, target: :room_boards
+    broadcast_append_later_to room,
+                              :players,
+                              target: :room_boards,
+                              partial: 'rooms/board'
   end
 
   validate :guesses_cannot_exceed_limit
@@ -37,6 +40,10 @@ class Player < ApplicationRecord
 
   def won?
     guesses.any?(&:correct?)
+  end
+
+  def broadcast_latest_state
+    broadcast_update_later_to self, :guesses
   end
 
   private

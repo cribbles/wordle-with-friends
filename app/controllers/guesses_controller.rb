@@ -1,51 +1,38 @@
 class GuessesController < ApplicationController
-  def show
-    if request.headers["turbo-frame"]
-      guess = Guess.find(params[:id])
-      render :show, locals: {
-        is_visible: is_visible?(guess),
-        guess: guess
+  before_action :require_login, only: :create
+  before_action :require_turbo_frame_header
+
+  def index
+    player = Player.find(params[:player_id])
+    render turbo_stream: turbo_stream.update(
+      player,
+      template: 'guesses/index',
+      locals: {
+        player: player,
+        is_visible: player_guesses_visible?(player)
       }
-    else
-      render status: :forbidden
-    end
+    )
+  end
+
+  def show
+    guess = Guess.find(params[:id])
+    render :show, locals: {
+      guess: guess,
+      is_visible: guess_visible?(guess)
+    }
   end
 
   def new
-    if request.headers["turbo-frame"]
-      render :new, locals: {
-        room: Room.find(room_id),
-        guess: nil
-      }
-    else
-      render status: :forbidden
-    end
+    render :new, locals: {
+      room: Room.find(room_id),
+      guess: Guess.new
+    }
   end
 
   def create
-    render status: :forbidden unless current_player_id
-
-    room = Room.find(room_id)
+    @room = Room.find(room_id)
     guess = Guess.new(player_id: current_player_id, word: params[:word])
-
-    respond_to do |format|
-      if guess.save
-        format.html { redirect_to room_path(room_id) }
-        format.turbo_stream do
-          render turbo_stream: [
-            replace_room_dashboard(room),
-            replace_guess_form(room, Guess.new)
-          ]
-        end
-      else
-        format.turbo_stream do
-          render turbo_stream: [
-            replace_room_dashboard(room),
-            replace_guess_form(room, guess)
-          ]
-        end
-      end
-    end
+    @guess = guess.save ? Guess.new : guess
   end
 
   private
@@ -54,26 +41,11 @@ class GuessesController < ApplicationController
     params[:room_id]
   end
 
-  def is_visible?(guess)
+  def guess_visible?(guess)
     current_player_id == guess.player.id || guess.room.over?
   end
 
-  def replace_room_dashboard(room)
-    turbo_stream.replace(
-      :room_dashboard,
-      partial: 'rooms/dashboard',
-      locals: { room: room }
-    )
-  end
-
-  def replace_guess_form(room, guess)
-    turbo_stream.replace(
-      :room_form,
-      template: 'guesses/new',
-      locals: {
-        room: room,
-        guess: guess
-      }
-    )
+  def player_guesses_visible?(player)
+    current_player_id == player.id || player.room.over?
   end
 end
