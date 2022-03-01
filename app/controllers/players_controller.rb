@@ -1,55 +1,19 @@
 class PlayersController < ApplicationController
+  before_action :require_turbo_frame_header, only: :new
+
   def create
-    player = Player.generate!(room_id: room_id)
+    @room = Room.find(room_id)
+    player = Player.generate!(room: @room)
     session[room_id] = player.id
-    respond_to do |format|
-      format.html { redirect_to room_path(room_id) }
-      format.turbo_stream do
-        room = Room.find(room_id)
-        render turbo_stream: [
-          replace_room_dashboard(room),
-          destroy_room_signup,
-          append_room_form(room)
-        ]
-      end
-    end
   end
 
   def new
-    if request.headers["turbo-frame"]
-      room = Room.find(room_id)
-      render :new, locals: { room: room }
-    else
-      render status: :forbidden
-    end
+    @room = Room.find(room_id)
   end
 
   private
 
   def room_id
     params[:room_id]
-  end
-
-  def replace_room_dashboard(room)
-    turbo_stream.replace(
-      :room_dashboard,
-      partial: 'rooms/dashboard',
-      locals: { room: room }
-    )
-  end
-
-  def destroy_room_signup
-    turbo_stream.remove(:room_signup)
-  end
-
-  def append_room_form(room)
-    turbo_stream.append(
-      :room_form,
-      partial: 'rooms/form',
-      locals: {
-        room: room,
-        guess: Guess.new
-      }
-    )
   end
 end

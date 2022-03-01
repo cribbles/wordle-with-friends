@@ -7,7 +7,7 @@
       method: :post,
       html: { class: 'my-4' }
     ) do |f| %>
-      <% if guess&.errors&.any? %>
+      <% if guess.errors.any? %>
         <div id="error_explanation">
           <ul>
             <% guess.errors.full_messages.each do |msg| %>
@@ -21,6 +21,8 @@
           :word,
           placeholder: 'Enter your guess',
           class: 'form-control',
+          maxlength: 5,
+          value: guess.word
         ) %>
       </div>
 

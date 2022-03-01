@@ -6,7 +6,8 @@ class Room < ApplicationRecord
 
   class << self
     def random_word
-      Rails.cache.read(:words).sample
+      'chubs'
+      # Rails.cache.read(:words).sample
     end
 
     private
@@ -50,18 +51,10 @@ class Room < ApplicationRecord
   end
 
   def broadcast_latest_state
-    ['dashboard', 'form', 'signup'].each do |partial|
-      broadcast_replace_later_to self,
-                                 target: "room_#{partial}",
-                                 partial: "rooms/#{partial}",
-                                 locals: { room: self }
-    end
+    refresh_partials %w{ dashboard form signup }
 
-    # TODO: This requires us to go through each guess frame, which is
-    # very inefficient and causes a noticably slow repaint.
-    # We should instead refresh the boards partial with a Guess#index
-    # frame tailored to each player.
-    guesses.each { |guess| guess.broadcast_replace_later_to player, :guesses }
+    # TODO
+    guesses.each { |g| g.broadcast_update_later_to g.player, :guesses }
   end
 
   private
@@ -73,5 +66,13 @@ class Room < ApplicationRecord
   def reset_word
     self.word = Room.random_word
     save
+  end
+
+  def refresh_partials(partials)
+    partials.each do |partial|
+      broadcast_update_later_to self,
+                           target: "room_#{partial}",
+                           partial: "rooms/#{partial}"
+    end
   end
 end

@@ -3,6 +3,18 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def require_login
+    render status: :forbidden unless logged_in?
+  end
+
+  def require_turbo_frame_header
+    render status: :forbidden unless is_turbo_frame_request?
+  end
+
+  def is_turbo_frame_request?
+    !!request.headers['turbo-frame']
+  end
+
   def logged_in?
     current_player_id.presence || false
   end
