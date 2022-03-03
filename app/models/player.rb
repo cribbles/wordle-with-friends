@@ -17,7 +17,7 @@ class Player < ApplicationRecord
   end
 
   def can_guess?
-    guesses.count < 6
+    guesses.count < MAX_GUESSES
   end
 
   def guess(word)
