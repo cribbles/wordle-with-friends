@@ -7,6 +7,7 @@ class Player < ApplicationRecord
 
   belongs_to :room
   has_many :guesses, dependent: :destroy
+  validates :guesses, length: { maximum: MAX_GUESSES - 1 }
 
   after_create_commit do
     broadcast_append_later_to room,
@@ -14,8 +15,6 @@ class Player < ApplicationRecord
                               target: :room_boards,
                               partial: 'rooms/board'
   end
-
-  validate :guesses_cannot_exceed_limit
 
   def can_guess?
     guesses.count < 6
@@ -44,12 +43,5 @@ class Player < ApplicationRecord
 
   def broadcast_latest_state
     broadcast_update_later_to self, :guesses
-  end
-
-  private
-
-  def guesses_cannot_exceed_limit
-    # TODO:
-    # errors.add("Too many guesses") if guesses.count >= MAX_GUESSES
   end
 end

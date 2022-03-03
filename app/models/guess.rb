@@ -1,6 +1,4 @@
 class Guess < ApplicationRecord
-  MAX_GUESSES ||= 6
-
   belongs_to :player
   delegate :room, to: :player
   default_scope { order(:id) }
@@ -13,8 +11,9 @@ class Guess < ApplicationRecord
 
   before_validation { word.downcase! }
 
-  validate { errors[:base] << "Wordle already solved" if room.won? }
-  validates_associated :player, message: "Too many guesses"
+  validates_associated :player,
+    on: :create,
+    message: "Too many guesses"
   validates :word, inclusion: {
     in: Rails.cache.read(:guesses),
     message: "Not in word list"
