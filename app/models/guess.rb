@@ -48,7 +48,7 @@ class Guess < ApplicationRecord
   private
 
   def handle_create
-    if correct?
+    if room.over?
       room.broadcast_latest_state
     else
       broadcast_append_later_to player, :guesses, target: player
