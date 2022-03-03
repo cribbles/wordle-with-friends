@@ -1,4 +1,3 @@
-<%= turbo_stream_from room %>
 <%= turbo_frame_tag :room_dashboard do %>
   <% if room.over? %>
     <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>

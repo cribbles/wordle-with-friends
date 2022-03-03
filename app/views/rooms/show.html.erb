@@ -1,8 +1,18 @@
 <div class="container">
   <h1>Wordle With Friends</h1>
 
-  <% %w{ dashboard signup form }.each do |partial| %>
-    <%= render partial: partial, locals: { room: @room } %>
+  <%= turbo_stream_from @room %>
+  <%= turbo_frame_tag :room_dashboard do %>
+    <%= render partial: 'dashboard', locals: { room: @room } %>
+  <% end %>
+
+  <%= turbo_frame_tag :room_signup do %>
+    <%= render template: 'players/new' %>
+  <% end %>
+
+  <%= turbo_frame_tag :room_form do %>
+    <%= render template: 'guesses/new',
+      locals: { room: @room, guess: Guess.new } %>
   <% end %>
 
   <%= turbo_stream_from @room, :players %>
