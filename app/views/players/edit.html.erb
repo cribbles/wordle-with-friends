@@ -1,0 +1,22 @@
+<% player_name = get_name(player) %>
+
+<%= turbo_stream_from player, :name %>
+<%= turbo_frame_tag dom_id(player, :name) do %>
+  <div data-controller="player-name"
+    class="player-name">
+    <%= form_with(
+      url: room_player_path(player.room, player.id),
+      method: :patch
+    ) do |f| %>
+      <%= f.hidden_field(
+        :name,
+        'data-player-name-target' => 'input',
+        value: player_name)
+      %>
+    <% end %>
+    <h2 <%= player.name ? '' : ' class=unnamed' %>
+      data-action="<%= to_actions('player-name', %w{click keydown blur}) %>"
+      data-player-name-target="name"
+    ><%= player_name %></h2>
+  </div>
+<% end %>

@@ -3,11 +3,13 @@ class Guess < ApplicationRecord
   delegate :room, to: :player
   default_scope { order(:id) }
 
-  broadcasts_to ->(guess) { [guess.player, :guesses] },
-    target: ->(guess) { guess.player }
-
-  after_create_commit :handle_create
-  after_destroy_commit { broadcast_remove_to player, :guesses }
+  after_create_commit -> {
+    if room.over?
+      room.broadcast_latest_state
+    else
+      broadcast_append_later_to player, :guesses, target: player
+    end
+  }
 
   before_validation { word.downcase! }
 
@@ -42,16 +44,6 @@ class Guess < ApplicationRecord
       else
         :absent
       end
-    end
-  end
-
-  private
-
-  def handle_create
-    if room.over?
-      room.broadcast_latest_state
-    else
-      broadcast_append_later_to player, :guesses, target: player
     end
   end
 end

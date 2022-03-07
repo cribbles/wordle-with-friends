@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.generate!
-    redirect_to room_path(@room.id)
+    redirect_to room_path(@room)
   end
 
   def update

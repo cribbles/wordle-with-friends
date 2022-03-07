@@ -6,6 +6,7 @@ class GuessesController < ApplicationController
     player = Player.find(params[:player_id])
     render turbo_stream: turbo_stream.update(
       player,
+      target: player,
       template: 'guesses/index',
       locals: {
         player: player,

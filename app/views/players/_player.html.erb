@@ -1,6 +1,9 @@
+<%= render partial: 'players/name', locals: { player: player } %>
+
 <%= turbo_stream_from player, :guesses %>
 <%= turbo_frame_tag dom_id(player),
   src: room_player_guesses_path(player.room, player) %>
+
 <% # TODO: CSS hack %>
 <% Player::MAX_GUESSES.times do %>
   <%= render partial: 'guesses/empty_row' %>

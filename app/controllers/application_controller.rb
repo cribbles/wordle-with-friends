@@ -1,7 +1,19 @@
 class ApplicationController < ActionController::Base
-  helper_method :logged_in?, :current_player
+  helper_method :logged_in?, :current_player, :to_actions
 
   private
+
+  def logged_in?
+    current_player_id.presence || false
+  end
+
+  def current_player
+    Player.find(current_player_id)
+  end
+
+  def to_actions(stimulus_controller, actions)
+    actions.map { |action| "#{action}->player-name##{action}" }.join(' ')
+  end
 
   def require_login
     render status: :forbidden unless logged_in?
@@ -13,14 +25,6 @@ class ApplicationController < ActionController::Base
 
   def is_turbo_frame_request?
     !!request.headers['turbo-frame']
-  end
-
-  def logged_in?
-    current_player_id.presence || false
-  end
-
-  def current_player
-    Player.find(current_player_id)
   end
 
   def current_player_id

@@ -126,6 +126,29 @@ p.banner-text {
   z-index: 4000;
 }
 
+.editable--hidden {
+  display: none;
+  opacity: 0;
+}
+
+.player-name {
+  width: 303px;
+  margin-left: -15px;
+}
+
+.player-name h2 {
+  white-space: nowrap;
+}
+
+.player-name h2.unnamed {
+  color: #666;
+}
+
+.player-name h2[contenteditable] {
+  color: #000;
+  outline: 0px solid transparent;
+}
+
 .game {
   width: 100%;
   max-width: var(--game-max-width);
@@ -197,7 +220,7 @@ menu-right {
   box-sizing: border-box;
   width: 303px;
   /* TODO: hack */
-  height: 355px;
+  height: 403px;
 }
 button.icon {
   background: none;

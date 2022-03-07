@@ -25,10 +25,7 @@ class Room < ApplicationRecord
   end
 
   def won?
-    Guess.where(
-      player: players.map(&:id),
-      word: word
-    ).any?
+    Guess.where(player: players, word: word).any?
   end
 
   def lost?
