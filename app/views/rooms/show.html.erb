@@ -19,4 +19,9 @@
   <%= turbo_frame_tag :room_boards do %>
     <%= render partial: 'board', collection: @room.players, as: :player %>
   <% end %>
+
+  <%= turbo_frame_tag :room_keyboard do %>
+    <%= render partial: 'keyboard',
+      locals: { room: @room, seen_letters: current_player.seen_letters } %>
+  <% end %>
 </div>

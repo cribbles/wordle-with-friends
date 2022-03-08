@@ -111,6 +111,13 @@ p.banner-text {
   font-family: 'nyt-franklin' !important;
 }
 
+.container {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
 .toaster {
   position: absolute;
   top: 10%;
@@ -231,16 +238,15 @@ menu-right {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  overflow: hidden;
 }
 .board {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
-  padding: 10px;
+  padding: 15px;
   box-sizing: border-box;
   width: 303px;
-  /* TODO: hack */
-  height: 421px;
+  height: 426px;
+  overflow: hidden;
 }
 button.icon {
   background: none;
@@ -319,8 +325,26 @@ button.icon {
   height: var(--keyboard-height);
 }
 
+#room_boards {
+  margin-right: 7px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+#room_dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#room_dashboard h3, #room_dashboard button {
+  margin-bottom: 10px;
+}
+
 #keyboard {
-  margin: 0 8px;
+  width: 450px;
+  margin: 48px 0 8px;
   user-select: none;
 }
 
@@ -328,11 +352,10 @@ button.icon {
   display: flex;
   width: 100%;
   margin: 0 auto 5px;
-  /* https://stackoverflow.com/questions/46167604/ios-html-disable-double-tap-to-zoom */
   touch-action: manipulation;
 }
 
-button {
+#keyboard button {
   font-family: inherit;
   font-weight: bold;
   border: 0;
@@ -340,7 +363,6 @@ button {
   margin: 0 6px 0 0;
   height: 58px;
   border-radius: 4px;
-  cursor: pointer;
   user-select: none;
   background-color: var(--key-bg);
   color: var(--key-text-color);
@@ -350,52 +372,55 @@ button {
   align-items: center;
   text-transform: uppercase;
   -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+
+  cursor: not-allowed;
+  /* TODO */
+  /* cursor: pointer; */
 }
 
-button:focus {
+#keyboard button:focus {
   outline: none;
 }
 
-button.fade {
+#keyboard button.fade {
   transition: background-color 0.1s ease, color 0.1s ease;
 }
 
-button:last-of-type {
+#keyboard button:last-of-type {
   margin: 0;
 }
 
-.half {
+#keyboard .half {
   flex: 0.5;
 }
 
-.one {
+#keyboard .one {
   flex: 1;
 }
 
-.one-and-a-half {
+#keyboard .one-and-a-half {
   flex: 1.5;
   font-size: 12px;
 }
 
-.two {
+#keyboard .two {
   flex: 2;
 }
 
-button[data-state='correct'] {
+#keyboard button.correct {
   background-color: var(--key-bg-correct);
   color: var(--key-evaluated-text-color);
 }
 
-button[data-state='present'] {
+#keyboard button.present {
   background-color: var(--key-bg-present);
   color: var(--key-evaluated-text-color);
 }
 
-button[data-state='absent'] {
+#keyboard button.absent {
   background-color: var(--key-bg-absent);
   color: var(--key-evaluated-text-color);
 }
-
 
 :host {
   display: inline-block;

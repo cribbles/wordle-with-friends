@@ -47,7 +47,7 @@ class Room < ApplicationRecord
   end
 
   def broadcast_latest_state
-    refresh_partials %w{ dashboard form signup }
+    refresh_partials %w{ dashboard form signup keyboard }
     players.each(&:broadcast_latest_state)
   end
 
@@ -64,9 +64,12 @@ class Room < ApplicationRecord
 
   def refresh_partials(partials)
     partials.each do |partial|
-      broadcast_update_later_to self,
-                                target: "room_#{partial}",
-                                partial: "rooms/#{partial}"
+      broadcast_update_later_to(
+        self,
+        target: "room_#{partial}",
+        partial: "rooms/#{partial}",
+        locals: { room: self, seen_letters: {} }
+      )
     end
   end
 end

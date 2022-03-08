@@ -39,13 +39,12 @@ class Player < ApplicationRecord
   end
 
   def seen_letters
-    seen = Hash.new { |hash, key| hash[key] = Set.new }
-    guesses.each do |guess|
+    guesses.each_with_object({}) do |guess, seen|
       guess.evaluations.each_with_index do |evaluation, i|
-        seen[evaluation] << guess.word[i]
+        letter = guess.word[i].to_sym
+        seen[letter] = evaluation.to_s
       end
     end
-    seen.transform_values { |set| set.to_a.map(&:upcase).sort }
   end
 
   def won?

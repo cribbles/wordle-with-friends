@@ -1,0 +1,32 @@
+<%
+  keyboard = [
+    %i{ q w e r t y u i o p },
+     %i{ a s d f g h j k l },
+       %i{ z x c v b n m }
+
+    # TODO
+    #  %i{ ↵ z x c v b n m ← }
+  ]
+
+  to_class_names = ->(key) {
+    class_names(
+      seen_letters[key],
+      'one-and-a-half' => [:↵, :←].include?(key)
+    )
+  }
+%>
+
+<div id="keyboard">
+  <% keyboard.each do |row| %>
+    <div class="row">
+      <% if row.count < 10 %><div class="spacer half"></div><% end %>
+        <% row.each do |key| %>
+          <button data-key="<%= key %>" class="<%= to_class_names.(key) %>">
+            <% # TODO: backspace icon %>
+            <%= key == :↵ ? 'enter' : key %>
+          </button>
+        <% end %>
+      <% if row.count < 10 %><div class="spacer half"></div><% end %>
+    </div>
+  <% end %>
+</div>
