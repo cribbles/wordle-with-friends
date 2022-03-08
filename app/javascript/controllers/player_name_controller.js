@@ -7,6 +7,7 @@ export default class extends Controller {
   static targets = ["name", "input"]
 
   click() {
+    this.nameTarget.textContent = "";
     this.nameTarget.setAttribute("contenteditable", "true")
     this.nameTarget.focus()
   }

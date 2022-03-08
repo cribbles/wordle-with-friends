@@ -126,6 +126,10 @@ p.banner-text {
   z-index: 4000;
 }
 
+h1 {
+  padding: 18px 0 0 0;
+}
+
 .editable--hidden {
   display: none;
   opacity: 0;
@@ -138,15 +142,31 @@ p.banner-text {
 
 .player-name h2 {
   white-space: nowrap;
+  color: var(--color-tone-1);
+  padding: 9px 0;
+  border: none;
+  width: 288px;
 }
 
 .player-name h2.unnamed {
-  color: #666;
+  color: var(--color-tone-3);
+  border-color: var(--color-tone-4);
+  border-style: dashed;
+  padding: 7px;
+}
+
+.player-name h2.editable {
+  cursor: pointer;
 }
 
 .player-name h2[contenteditable] {
-  color: #000;
+  color: var(--color-tone-1);
   outline: 0px solid transparent;
+  border-color: var(--color-tone-5);
+}
+
+.form-group {
+  width: 354px;
 }
 
 .game {
@@ -220,7 +240,7 @@ menu-right {
   box-sizing: border-box;
   width: 303px;
   /* TODO: hack */
-  height: 403px;
+  height: 421px;
 }
 button.icon {
   background: none;
