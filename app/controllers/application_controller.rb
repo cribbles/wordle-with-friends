@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_player
-    Player.find(current_player_id)
+    Player.find_by(id: current_player_id)
   end
 
   def to_actions(stimulus_controller, actions)

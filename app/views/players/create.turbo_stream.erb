@@ -2,3 +2,7 @@
 <%= turbo_stream.append :room_form do %>
   <%= render partial: 'rooms/form', locals: { room: @room } %>
 <% end %>
+<%= turbo_stream.update :room_keyboard do %>
+  <%= render partial: 'rooms/keyboard',
+    locals: { room: @room, seen_letters: @player.seen_letters } %>
+<% end %>

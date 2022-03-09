@@ -21,7 +21,9 @@
   <% end %>
 
   <%= turbo_frame_tag :room_keyboard do %>
-    <%= render partial: 'keyboard',
-      locals: { room: @room, seen_letters: current_player.seen_letters } %>
+    <% if current_player %>
+      <%= render partial: 'keyboard',
+        locals: { room: @room, seen_letters: current_player.seen_letters } %>
+    <% end %>
   <% end %>
 </div>

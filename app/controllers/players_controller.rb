@@ -4,8 +4,8 @@ class PlayersController < ApplicationController
 
   def create
     @room = Room.find(room_id)
-    player = Player.generate!(room: @room)
-    session[room_id] = player.id
+    @player = Player.generate!(room: @room)
+    session[room_id] = @player.id
   end
 
   def new
