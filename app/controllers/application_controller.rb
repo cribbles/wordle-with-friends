@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :logged_in?, :current_player, :to_actions
+  helper_method :logged_in?, :current_player, :actionify_for
 
   private
 
@@ -11,8 +11,11 @@ class ApplicationController < ActionController::Base
     Player.find_by(id: current_player_id)
   end
 
-  def to_actions(stimulus_controller, actions)
-    actions.map { |action| "#{action}->player-name##{action}" }.join(' ')
+  def actionify_for(stimulus_controller_events)
+    stimulus_controller_events.reduce('') do |actions, (controller, events)|
+      transformer = events.is_a?(Enumerable) ? :to_actions : :to_action
+      actions + send(transformer, controller.to_s.dasherize, events)
+    end
   end
 
   def require_login
@@ -33,5 +36,15 @@ class ApplicationController < ActionController::Base
 
   def room_id
     nil
+  end
+
+  private
+
+  def to_actions(stimulus_controller, actions)
+    actions.map { |action| to_action(stimulus_controller, action) }.join(' ')
+  end
+
+  def to_action(stimulus_controller, action)
+    "#{action}->#{stimulus_controller}##{action}"
   end
 end

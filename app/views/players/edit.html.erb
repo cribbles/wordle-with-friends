@@ -14,7 +14,7 @@
       %>
     <% end %>
     <h2 class="editable<%= player.name ? '' : ' unnamed' %>"
-      data-action="<%= to_actions('player-name', %w{click keydown blur}) %>"
+      data-action="<%= actionify_for player_name: %w{click keydown blur} %>"
       data-player-name-target="name"
     ><%= player_name %></h2>
   </div>
