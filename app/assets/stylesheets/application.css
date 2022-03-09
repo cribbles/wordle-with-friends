@@ -180,6 +180,14 @@ h1 {
   width: 354px;
 }
 
+.form-control {
+  text-transform: uppercase;
+}
+
+.form-control::placeholder {
+  text-transform: none;
+}
+
 .game {
   width: 100%;
   max-width: var(--game-max-width);
@@ -362,6 +370,7 @@ button.icon {
 #keyboard button {
   font-family: inherit;
   font-weight: bold;
+  cursor: pointer;
   border: 0;
   padding: 0;
   margin: 0 6px 0 0;
@@ -376,10 +385,6 @@ button.icon {
   align-items: center;
   text-transform: uppercase;
   -webkit-tap-highlight-color: rgba(0,0,0,0.3);
-
-  cursor: not-allowed;
-  /* TODO */
-  /* cursor: pointer; */
 }
 
 #keyboard button:focus {
