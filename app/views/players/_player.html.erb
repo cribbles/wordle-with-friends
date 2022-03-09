@@ -6,5 +6,5 @@
 
 <% # TODO: CSS hack %>
 <% Player::MAX_GUESSES.times do %>
-  <%= render partial: 'guesses/empty_row' %>
+  <%= render partial: 'guesses/empty_row', locals: { placeholder: false } %>
 <% end %>

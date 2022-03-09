@@ -1,3 +1,8 @@
 <%= turbo_stream_from player, :name %>
 <%= turbo_frame_tag dom_id(player, :name),
-  src: room_player_path(player.room, player) %>
+  src: room_player_path(player.room, player),
+  loading: :lazy do %>
+  <div class="player-name">
+    <h2 class="placeholder">&nbsp;</h2>
+  </div>
+<% end %>

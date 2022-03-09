@@ -1,9 +1,7 @@
 <div class="guess-row">
-  <div class="row">
-    <div class="tile" data-state="empty" data-animation="idle"></div>
-    <div class="tile" data-state="empty" data-animation="idle"></div>
-    <div class="tile" data-state="empty" data-animation="idle"></div>
-    <div class="tile" data-state="empty" data-animation="idle"></div>
-    <div class="tile" data-state="empty" data-animation="idle"></div>
+  <div class="<%= class_names('row', placeholder: placeholder) %>">
+    <% 5.times do %>
+      <div class="tile" data-state="empty" data-animation="idle"></div>
+    <% end %>
   </div>
 </div>

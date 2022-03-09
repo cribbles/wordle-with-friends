@@ -155,6 +155,10 @@ h1 {
   width: 288px;
 }
 
+.player-name h2.placeholder {
+  background: var(--color-tone-5);
+}
+
 .player-name h2.unnamed {
   color: var(--color-tone-3);
   border-color: var(--color-tone-4);
@@ -443,6 +447,10 @@ button.icon {
   content: '';
   display: inline-block;
   padding-bottom: 100%;
+}
+
+div.row.placeholder .tile {
+  background-color: var(--color-tone-4);
 }
 
 .tile[data-state='empty'] {
