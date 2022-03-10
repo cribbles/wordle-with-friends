@@ -66,7 +66,8 @@ class Room < ApplicationRecord
     broadcast_update_later_to(
       self,
       target: "room_#{partial}",
-      partial: "rooms/#{partial}"
+      partial: "rooms/#{partial}",
+      locals: { room: self, initial_render: false }
     )
   end
 end

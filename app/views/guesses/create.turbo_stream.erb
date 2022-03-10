@@ -1,6 +1,3 @@
-<%= turbo_stream.update :room_dashboard do %>
-  <%= render partial: 'rooms/dashboard', locals: { room: @room } %>
-<% end %>
 <%= turbo_stream.update :room_form do %>
   <%= render template: 'guesses/new', locals: { room: @room, guess: @guess } %>
 <% end %>

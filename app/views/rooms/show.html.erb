@@ -3,7 +3,8 @@
 
   <%= turbo_stream_from @room %>
   <%= turbo_frame_tag :room_dashboard do %>
-    <%= render partial: 'dashboard', locals: { room: @room } %>
+    <%= render partial: 'dashboard',
+      locals: { room: @room, initial_render: true } %>
   <% end %>
 
   <%= turbo_frame_tag :room_signup do %>

@@ -1,6 +1,8 @@
 <%= turbo_frame_tag :room_dashboard do %>
   <% if room.over? %>
-    <div data-controller="dashboard"></div>
+    <% unless initial_render %>
+      <div data-controller="guess-row-reset"></div>
+    <% end %>
     <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
     
     <p>Word was: <b><%= room.word %></b></p>
@@ -8,5 +10,9 @@
       room_path(room.id),
       class: 'btn btn-primary',
       method: :patch %>
+  <% else %>
+    <% unless initial_render %>
+      <div data-controller="keyboard-reset"></div>
+    <% end %>
   <% end %>
 <% end %>
