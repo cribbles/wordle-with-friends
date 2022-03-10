@@ -7,13 +7,15 @@
 
   to_class_names = ->(key) {
     class_names(
-      seen_letters[key],
+      player&.seen_letters&.fetch(key, nil),
       'one-and-a-half' => [:↵, :←].include?(key)
     )
   }
 %>
 
-<div id="keyboard" data-controller="keyboard">
+<div id="keyboard"
+  data-controller="keyboard"
+  data-keyboard-player-id-value="<%= player&.id %>">
   <% keyboard.each do |row| %>
     <div class="row">
       <% if row.count < 10 %><div class="spacer half"></div><% end %>

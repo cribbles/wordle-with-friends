@@ -4,5 +4,5 @@
 <% end %>
 <%= turbo_stream.update :room_keyboard do %>
   <%= render partial: 'rooms/keyboard',
-    locals: { room: @room, seen_letters: @player.seen_letters } %>
+    locals: { room: @room, player: @player } %>
 <% end %>

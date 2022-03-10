@@ -1,5 +1,6 @@
 <%= turbo_frame_tag :room_dashboard do %>
   <% if room.over? %>
+    <div data-controller="dashboard"></div>
     <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
     
     <p>Word was: <b><%= room.word %></b></p>

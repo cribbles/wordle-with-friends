@@ -4,7 +4,9 @@
 <%= turbo_frame_tag dom_id(player),
   src: room_player_guesses_path(player.room, player) %>
 
-<% # TODO: CSS hack %>
-<% Player::MAX_GUESSES.times do %>
-  <%= render partial: 'guesses/empty_row', locals: { placeholder: false } %>
-<% end %>
+<div id="<%= dom_id(player, :empty_rows) %>">
+  <% # TODO: CSS hack %>
+  <% Player::MAX_GUESSES.times do %>
+    <%= render partial: 'guesses/empty_row', locals: { placeholder: false } %>
+  <% end %>
+</div>

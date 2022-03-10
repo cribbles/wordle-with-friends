@@ -4,8 +4,7 @@
     <%= form_with(
       id: dom_id(room),
       url: room_guesses_path(room.id),
-      method: :post,
-      html: { class: 'my-4' }
+      method: :post
     ) do |f| %>
       <% if guess.errors.any? %>
         <div id="error_explanation">
@@ -16,19 +15,8 @@
           </ul>
         </div>
       <% end %>
-      <div class="form-group">
-        <%= f.text_field(
-          :word,
-          placeholder: 'Enter your guess',
-          class: 'form-control',
-          maxlength: 5,
-          value: guess.word
-        ) %>
-      </div>
-
-      <div class="actions">
-        <%= f.submit 'Guess', class: 'btn btn-primary' %>
-      </div>
+      <div data-controller="guess-form"></div>
+      <%= f.hidden_field(:word, id: 'guess') %>
     <% end %>
   <% end %>
 <% end %>
