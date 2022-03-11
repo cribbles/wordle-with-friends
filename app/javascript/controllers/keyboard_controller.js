@@ -5,7 +5,7 @@ const KEY_SYMBOLS = {
   Backspace: '←'
 }
 const TILES_STATE = { empty: [], tbd: [] };
-const WORD_CHAR_REGEX = /\w/
+const WORD_CHAR_REGEX = /^\w$/
 
 const getFirstEmptyPlayerRow = (playerId) =>
   document
