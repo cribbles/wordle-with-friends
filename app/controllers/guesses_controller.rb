@@ -33,7 +33,7 @@ class GuessesController < ApplicationController
 
   def create
     @room = Room.find(room_id)
-    guess = Guess.new(player_id: current_player_id, word: params[:word])
+    guess = Guess.new(player: current_player, word: params[:word])
     @guess = guess.save ? Guess.new : guess
   end
 
@@ -44,10 +44,14 @@ class GuessesController < ApplicationController
   end
 
   def guess_visible?(guess)
-    current_player_id == guess.player.id || guess.room.over?
+    guess.player == current_player || guess.room.over?
   end
 
   def player_guesses_visible?(player)
-    current_player_id == player.id || player.room.over?
+    player == current_player || player.room.over?
+  end
+
+  def require_login
+    render status: :forbidden unless logged_in?
   end
 end

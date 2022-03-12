@@ -5,7 +5,7 @@ class PlayersController < ApplicationController
   def create
     @room = Room.find(room_id)
     @player = Player.generate!(room: @room)
-    session[room_id] = @player.id
+    session[room_id] = @player.session_token
   end
 
   def new
@@ -24,6 +24,7 @@ class PlayersController < ApplicationController
 
   def update
     @player = Player.find(params[:id])
+    render status: :forbidden unless @player == current_player
     @player.update!(name: params[:name])
     redirect_to room_path(@player.room)
   end
@@ -39,6 +40,6 @@ class PlayersController < ApplicationController
   end
 
   def can_rename(player)
-    player.id === current_player_id && player.name.blank?
+    player == current_player && player.name.blank?
   end
 end

@@ -3,6 +3,19 @@ require 'set'
 class Player < ApplicationRecord
   extend AlphanumericallyIdentifiable
 
+  class << self
+    def attrs_from_session_token(token)
+      token.split(':') => [id, password]
+      { id: id, password: password }
+    end
+
+    private
+
+    def generate_attributes
+      super.merge(password: random_id)
+    end
+  end
+
   MAX_GUESSES ||= 6
 
   belongs_to :room
@@ -45,6 +58,10 @@ class Player < ApplicationRecord
         seen[letter] = evaluation.to_s
       end
     end
+  end
+
+  def session_token
+    [id, password].join(':')
   end
 
   def won?

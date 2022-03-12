@@ -24,7 +24,8 @@ class RoomsController < ApplicationController
   def ensure_first_player_exists
     if @room.empty?
       room_id = params[:id]
-      session[room_id] = Player.generate!(room_id: room_id).id
+      player = Player.generate!(room_id: room_id)
+      session[room_id] = player.session_token
     end
   end
 end

@@ -4,11 +4,12 @@ class ApplicationController < ActionController::Base
   private
 
   def logged_in?
-    current_player_id.presence || false
+    !!current_player
   end
 
   def current_player
-    Player.find_by(id: current_player_id)
+    return nil unless attrs = current_player_attrs
+    @current_player ||= Player.find_by(attrs)
   end
 
   def actionify_for(stimulus_controller_events)
@@ -18,20 +19,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_login
-    render status: :forbidden unless logged_in?
-  end
-
   def require_turbo_frame_header
     render status: :forbidden unless is_turbo_frame_request?
-  end
-
-  def is_turbo_frame_request?
-    !!request.headers['turbo-frame']
-  end
-
-  def current_player_id
-    session[room_id]
   end
 
   def room_id
@@ -39,6 +28,15 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def current_player_attrs
+    return nil unless token = session[room_id]
+    Player.attrs_from_session_token(token)
+  end
+
+  def is_turbo_frame_request?
+    !!request.headers['turbo-frame']
+  end
 
   def to_actions(stimulus_controller, actions)
     actions.map { |action| to_action(stimulus_controller, action) }.join(' ')
