@@ -4,8 +4,14 @@ const KEY_SYMBOLS = {
   Enter: '↵',
   Backspace: '←'
 }
-const TILES_STATE = { empty: [], tbd: [] };
+const TILES_STATE = { empty: [], tbd: [] }
 const WORD_CHAR_REGEX = /^\w$/
+
+const getFormInputElement = () =>
+  document.getElementById('guess')
+
+const submitForm = () =>
+  document.querySelector('#room_form form').requestSubmit()
 
 const getFirstEmptyPlayerRow = (playerId) =>
   document
@@ -56,26 +62,45 @@ export default class extends Controller {
   }
 
   handleInput = (key) => {
-    const {
-      empty: [firstEmptyTile],
-      tbd: tbdTiles
-    } = getPlayerTiles(this.playerIdValue)
-    const formInput = document.getElementById('guess')
+    const formInputEl = getFormInputElement()
+    if (!this.canGuess(formInputEl)) return
 
-    if (key === KEY_SYMBOLS.Enter && !!formInput.value) {
-      document.querySelector('#room_form form').requestSubmit()
-      tbdTiles.forEach(resetTile);
-      formInput.value = ''
-      return
-    }
+    const { value: currentGuess } = formInputEl
 
-    if (WORD_CHAR_REGEX.test(key) && !!firstEmptyTile) {
-      formInput.value += key
-      setTile(firstEmptyTile, key)
-    } else if (key === KEY_SYMBOLS.Backspace && tbdTiles.length) {
-      formInput.value = formInput.value.slice(0, formInput.value.length - 1)
-      const lastTbdTile = tbdTiles[tbdTiles.length - 1]
-      resetTile(lastTbdTile)
+    if (WORD_CHAR_REGEX.test(key) && currentGuess.length < 5) {
+      this.addToGuess(formInputEl, key)
+    } else if (currentGuess.length > 0) {
+      if (key === KEY_SYMBOLS.Enter) {
+        this.submitGuess(formInputEl)
+      } else if (key === KEY_SYMBOLS.Backspace) {
+        this.removeFromGuess(formInputEl)
+      }
     }
+  }
+
+  playerTiles = () => getPlayerTiles(this.playerIdValue)
+
+  canGuess = (formInputEl) =>
+    !!formInputEl &&
+    document.getElementById(`player_${this.playerIdValue}`).children.length < 6
+
+  addToGuess = (formInputEl, letter) => {
+    formInputEl.value += letter
+    const [firstEmptyTile] = this.playerTiles().empty
+    setTile(firstEmptyTile, letter)
+  }
+
+  removeFromGuess = (formInputEl) => {
+    const newGuess = formInputEl.value.slice(0, formInputEl.value.length - 1)
+    formInputEl.value = newGuess
+    const tbdTiles = this.playerTiles().tbd
+    const lastTbdTile = tbdTiles[tbdTiles.length - 1]
+    resetTile(lastTbdTile)
+  }
+
+  submitGuess = (formInputEl) => {
+    submitForm()
+    formInputEl.value = ''
+    this.playerTiles().tbd.forEach(resetTile)
   }
 }
