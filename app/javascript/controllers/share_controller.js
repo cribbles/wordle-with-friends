@@ -43,7 +43,7 @@ const copyFormattedBoardsToClipboard = () => {
 
 const notifyUserOfCopyEvent = () => {
   const notification = document.createElement('p')
-  notification.textContent = 'Copied to clipboard :)'
+  notification.textContent = 'Copied to clipboard'
   document.getElementById('end-banner').after(notification)
 }
 
