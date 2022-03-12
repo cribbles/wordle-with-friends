@@ -3,13 +3,22 @@
     <% unless initial_render %>
       <div data-controller="guess-row-reset"></div>
     <% end %>
-    <h3><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
+    <h3 id="end-banner"><%= room.won? ? 'Solved!' : 'Game over!' %></h3>
     
-    <p>Word was: <b><%= room.word %></b></p>
+    <% if room.lost? %><p>Word was: <b><%= room.word %></b></p><% end %>
     <%= button_to 'New Word',
       room_path(room.id),
       class: 'btn btn-primary',
       method: :patch %>
+    <% if room.won? %>
+      <div data-controller="share">
+        <button data-action="<%= actionify_for share: 'click' %>"
+          class="btn btn-primary">
+          Share
+          <%= render partial: 'rooms/share_icon' %>
+        </button>
+      </div>
+    <% end %>
   <% else %>
     <% unless initial_render %>
       <div data-controller="keyboard-reset"></div>

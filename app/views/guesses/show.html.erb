@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(guess) do %>
-  <div class="guess-row">
+  <div class="guess-row non-empty">
     <div class="row">
       <% guess.evaluations.map.with_index do |evaluation, i| %>
         <div class="tile" data-state="<%= evaluation %>" data-animation="idle">
