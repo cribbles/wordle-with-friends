@@ -26,7 +26,8 @@ class GuessesController < ApplicationController
   def new
     render :new, locals: {
       room: Room.find(room_id),
-      guess: Guess.new
+      guess: Guess.new,
+      initial_render: true
     }
   end
 

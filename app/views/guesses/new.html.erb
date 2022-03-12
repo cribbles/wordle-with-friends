@@ -1,6 +1,9 @@
 <%= turbo_stream_from room %>
 <%= turbo_frame_tag :room_form do %>
   <% if logged_in? && !room.over? %>
+    <% unless initial_render %>
+      <div data-controller="guess-row-reset"></div>
+    <% end %>
     <%= form_with(
       id: dom_id(room),
       url: room_guesses_path(room.id),

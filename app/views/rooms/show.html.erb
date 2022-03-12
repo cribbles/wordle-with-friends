@@ -13,7 +13,7 @@
 
   <%= turbo_frame_tag :room_form do %>
     <%= render template: 'guesses/new',
-      locals: { room: @room, guess: Guess.new } %>
+      locals: { room: @room, guess: Guess.new, initial_render: false } %>
   <% end %>
 
   <%= turbo_stream_from @room, :players %>

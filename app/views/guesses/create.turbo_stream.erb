@@ -1,5 +1,6 @@
 <%= turbo_stream.update :room_form do %>
-  <%= render template: 'guesses/new', locals: { room: @room, guess: @guess } %>
+  <%= render template: 'guesses/new',
+    locals: { room: @room, guess: @guess, initial_render: false } %>
 <% end %>
 <%= turbo_stream.update :room_keyboard do %>
   <%= render partial: 'rooms/keyboard',
