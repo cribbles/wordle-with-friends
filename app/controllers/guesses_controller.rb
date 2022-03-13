@@ -35,8 +35,13 @@ class GuessesController < ApplicationController
   def create
     @room = Room.find(room_id)
     guess = Guess.new(player: current_player, word: params[:word])
-    @guess = guess.save ? Guess.new : guess
-    current_player.guesses.reload
+
+    if guess.save
+      current_player.guesses.reload
+      @guess = Guess.new
+    else
+      @guess = guess
+    end
   end
 
   private
