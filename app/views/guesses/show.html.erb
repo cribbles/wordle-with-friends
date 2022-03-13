@@ -1,8 +1,8 @@
 <%= turbo_frame_tag dom_id(guess) do %>
   <div class="guess-row non-empty"
-    data-controller="guess-animation"
-    data-guess-animation-origin-value="<%= refresh ? 'refresh' : 'reveal' %>">
-    <div class="row" data-guess-animation-target="row">
+    data-controller="guess"
+    data-guess-origin-value="<%= refresh ? 'refresh' : 'reveal' %>">
+    <div class="row" data-guess-target="row">
       <% guess.evaluations.map.with_index do |evaluation, i| %>
         <div class="tile" data-state="<%= evaluation %>" data-animation="idle">
           <%= is_visible ? guess.word[i] : '' %>
