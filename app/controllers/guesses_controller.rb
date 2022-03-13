@@ -19,7 +19,8 @@ class GuessesController < ApplicationController
     guess = Guess.find(params[:id])
     render :show, locals: {
       guess: guess,
-      is_visible: guess_visible?(guess)
+      is_visible: guess_visible?(guess),
+      refresh: false
     }
   end
 

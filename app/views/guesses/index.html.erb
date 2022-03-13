@@ -1,4 +1,4 @@
 <% player.guesses.each do |guess| %>
   <%= render template: 'guesses/show',
-    locals: { guess: guess, is_visible: is_visible } %>
+    locals: { guess: guess, is_visible: is_visible, refresh: true } %>
 <% end %>

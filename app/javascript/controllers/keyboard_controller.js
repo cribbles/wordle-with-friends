@@ -28,11 +28,13 @@ const getPlayerTiles = (player) => getRowTiles(getFirstEmptyPlayerRow(player))
 
 const setTile = (tile, key) => {
   tile.dataset.state = 'tbd'
+  tile.dataset.animation = 'pop'
   tile.textContent = key
 }
 
 const resetTile = (tile) => {
   tile.dataset.state = 'empty'
+  tile.dataset.animation = 'idle'
   tile.textContent = ''
 }
 

@@ -455,7 +455,7 @@ button.icon {
 }
 
 div.row.placeholder .tile {
-  background-color: var(--color-tone-4);
+  background-color: var(--white);
 }
 
 .tile[data-state='empty'] {
@@ -517,4 +517,11 @@ div.row.placeholder .tile {
   100% {
     transform: rotateX(0);
   }
+}
+
+.non-empty .tile[data-animation='idle'],
+.non-empty .tile[data-animation='flip-in'] {
+  color: var(--white);
+  background-color: var(--white);
+  border: 2px solid var(--color-tone-4);
 }
