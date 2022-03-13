@@ -35,11 +35,7 @@ class PlayersController < ApplicationController
     params[:room_id]
   end
 
-  def get_name(player)
-    player.name || "Player #{player.room.players.find_index(player) + 1}"
-  end
-
   def can_rename(player)
-    player == current_player && player.name.blank?
+    player == current_player && player.unnamed?
   end
 end

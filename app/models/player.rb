@@ -44,6 +44,15 @@ class Player < ApplicationRecord
     guesses.count < MAX_GUESSES
   end
 
+  def name
+    return super if new_record?
+    self[:name] || "Player #{room.players.find_index(self) + 1}"
+  end
+
+  def unnamed?
+    self[:name].blank?
+  end
+
   def guess(word)
     Guess.create!(
       word: word,

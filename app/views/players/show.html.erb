@@ -1,5 +1,5 @@
 <div class="player-name">
-  <h2 class="<%= class_names(unnamed: !player.name) %>">
-    <%= get_name(player) %>
+  <h2 class="<%= class_names(unnamed: player.unnamed?) %>">
+    <%= player.name %>
   </h2>
 </div>
