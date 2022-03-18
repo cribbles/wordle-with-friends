@@ -4,26 +4,22 @@
      %i{ a s d f g h j k l },
      %i{ ↵ z x c v b n m ← }
   ]
-
-  to_class_names = ->(key) {
-    class_names(
-      player&.seen_letters&.fetch(key, nil),
-      'one-and-a-half' => [:↵, :←].include?(key)
-    )
-  }
 %>
 
 <div id="keyboard"
   data-controller="keyboard"
-  data-keyboard-player-id-value="<%= player&.id %>">
+  data-keyboard-player-id-value="<%= player.id %>">
   <% keyboard.each do |row| %>
     <div class="row">
       <% if row.count < 10 %><div class="spacer half"></div><% end %>
         <% row.each do |key| %>
+          <% key_class_names = class_names(
+            player.seen_letters.fetch(key, nil),
+            'one-and-a-half' => [:↵, :←].include?(key)
+          ) %>
           <button data-key="<%= key %>"
             data-action="<%= actionify_for keyboard: 'click' %>"
-            class="<%= to_class_names.(key) %>">
-            <% # TODO: backspace icon %>
+            class="<%= key_class_names %>">
             <%= key == :↵ ? 'enter' : key %>
           </button>
         <% end %>

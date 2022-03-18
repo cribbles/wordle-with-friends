@@ -63,7 +63,7 @@ export default class extends Controller {
     this.handleInput(KEY_SYMBOLS[event.key] || event.key)
   }
 
-  handleInput = (key) => {
+  handleInput(key) {
     const formInputEl = getFormInputElement()
     if (!this.canGuess(formInputEl)) return
 
