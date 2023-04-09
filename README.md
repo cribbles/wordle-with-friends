@@ -6,7 +6,7 @@ This is a multiplayer Wordle clone written in [Rails 7](https://rubyonrails.org/
 
 ## Live
 
-https://wordle-friends.herokuapp.com/
+https://friendle.fly.dev/
 
 ## License
 

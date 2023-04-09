@@ -12,6 +12,6 @@ test:
 
 production:
   adapter: postgresql
-  database: wordle_production
+  database: friendle-db
   pool: 5
   timeout: 5000
