@@ -6,7 +6,7 @@ class Player < ApplicationRecord
   class << self
     def attrs_from_session_token(token)
       token.split(':') => [id, password]
-      { id: id, password: password }
+      { id:, password: }
     end
 
     private
