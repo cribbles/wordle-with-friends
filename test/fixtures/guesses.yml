@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  word: MyString
-  player: one
+  id: 1
+  word: blobs
+  player_id: one
 
 two:
-  word: MyString
-  player: two
+  id: 2
+  word: crane
+  player_id: two

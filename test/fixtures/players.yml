@@ -1,7 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  room: one
+  id: one
+  password: 12345
+  room_id: one
 
 two:
-  room: two
+  id: two
+  password: abcde
+  name: Player 2
+  room_id: one
+
+three:
+  id: three
+  password: qwert
+  room_id: two
