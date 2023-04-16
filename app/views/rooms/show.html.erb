@@ -18,7 +18,10 @@
 
   <%= turbo_stream_from @room, :players %>
   <%= turbo_frame_tag :room_boards do %>
-    <%= render partial: 'board', collection: @room.players, as: :player %>
+    <%= render partial: 'board',
+      collection: @room.players,
+      as: :player,
+      locals: { multiplayer: @room.full? } %>
   <% end %>
 
   <%= turbo_frame_tag :room_keyboard do %>

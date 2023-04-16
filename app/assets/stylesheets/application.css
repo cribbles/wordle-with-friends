@@ -143,7 +143,8 @@ h1 {
 }
 
 .player-name {
-  width: 303px;
+  width: 100%;
+  max-width: 303px;
   margin-left: -15px;
 }
 
@@ -152,7 +153,8 @@ h1 {
   color: var(--color-tone-1);
   padding: 9px 0;
   border: none;
-  width: 288px;
+  width: 100%;
+  max-width: 288px;
 }
 
 .player-name h2.placeholder {
@@ -177,7 +179,8 @@ h1 {
 }
 
 .form-group {
-  width: 354px;
+  width: 100%;
+  max-width: 354px;
 }
 
 .form-control {
@@ -256,10 +259,12 @@ menu-right {
   grid-template-rows: repeat(6, 1fr);
   padding: 15px;
   box-sizing: border-box;
-  width: 303px;
-  height: 426px;
+  width: 100%;
+  max-width: 303px;
+  height: 410px;
   overflow: hidden;
 }
+
 button.icon {
   background: none;
   border: none;
@@ -338,7 +343,8 @@ button.icon {
 }
 
 #room_boards {
-  margin-right: 7px;
+  width: 100%;
+  max-width: 606px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -354,9 +360,16 @@ button.icon {
   margin-bottom: 10px;
 }
 
+#room_keyboard {
+  width: 100%;
+  max-width: 450px;
+  padding: 4px;
+}
+
 #keyboard {
-  width: 450px;
-  margin: 48px 0 8px;
+  width: 100%;
+  max-width: 450px;
+  margin: 48px 0 0 16px;
   user-select: none;
 }
 
@@ -524,4 +537,41 @@ div.row.placeholder .tile {
   color: var(--white);
   background-color: var(--white);
   border: 2px solid var(--color-tone-4);
+}
+
+@media (max-width: 767px) {
+  .board {
+    height: 352px;
+  }
+  #room_boards {
+    margin-right: -22px;
+  }
+}
+
+@media (max-width: 667px) {
+  .board {
+    height: 336px;
+    max-width: 235px;
+  }
+  .game.multiplayer .board {
+    width: 180px;
+    height: 252px;
+  }
+  .tile {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+  #room_boards {
+    margin-right: -30px;
+  }
+  h1 {
+    font-size: 2rem !important;
+  }
+  h2 {
+    padding: 16px 0;
+    font-size: 1.5rem !important;
+  }
+  turbo-cable-stream-source {
+    display: none;
+  }
 }
