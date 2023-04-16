@@ -18,7 +18,7 @@ class PlayersController < ApplicationController
     render turbo_stream: turbo_stream.update(
       "name_player_#{player.id}",
       template: "players/#{template}",
-      locals: { player: player, multiplayer: player.room.full? }
+      locals: { player: }
     )
   end
 

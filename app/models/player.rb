@@ -30,8 +30,7 @@ class Player < ApplicationRecord
     broadcast_append_later_to room,
                               :players,
                               target: :room_boards,
-                              partial: 'rooms/board',
-                              locals: { multiplayer: true }
+                              partial: 'rooms/board'
   end
 
   after_update_commit do

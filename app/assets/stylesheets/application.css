@@ -541,6 +541,11 @@ div.row.placeholder .tile {
 
 @media (max-width: 767px) {
   .board {
+    height: 410px;
+  }
+  /* multiplayer boards */
+  .game:first-child:nth-last-child(2) .board,
+  .game:first-child:nth-last-child(2) ~ .game .board {
     height: 352px;
   }
   #room_boards {
@@ -553,7 +558,9 @@ div.row.placeholder .tile {
     height: 336px;
     max-width: 235px;
   }
-  .game.multiplayer .board {
+  /* multiplayer boards */
+  .game:first-child:nth-last-child(2) .board,
+  .game:first-child:nth-last-child(2) ~ .game .board {
     width: 180px;
     height: 252px;
   }
