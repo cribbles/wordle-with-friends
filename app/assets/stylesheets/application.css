@@ -348,6 +348,7 @@ button.icon {
   align-items: center;
   display: flex;
   justify-content: center;
+  margin-right: -31px;
 }
 
 #room_dashboard {
@@ -580,5 +581,8 @@ div.row.placeholder .tile {
   }
   turbo-cable-stream-source {
     display: none;
+  }
+  #keyboard {
+    margin: 24px 0 0 16px;
   }
 }
