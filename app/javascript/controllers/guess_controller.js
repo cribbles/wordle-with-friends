@@ -34,6 +34,6 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.timeouts.forEach(window.clearTimeout)
+    this.timeouts?.forEach(window.clearTimeout)
   }
 }
