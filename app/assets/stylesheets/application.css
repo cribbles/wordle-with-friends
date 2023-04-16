@@ -556,8 +556,8 @@ div.row.placeholder .tile {
 
 @media (max-width: 667px) {
   .board {
-    height: 336px;
-    max-width: 235px;
+    width: 235px;
+    height: 320px;
   }
   /* multiplayer boards */
   .game:first-child:nth-last-child(2) .board,
